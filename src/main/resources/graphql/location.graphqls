@@ -6,6 +6,7 @@ type Location {
 
 type Query {
   findAllLocations: [Location]!
+  findLocationById(id: ID!): Location!
 }
 
 type Mutation {
