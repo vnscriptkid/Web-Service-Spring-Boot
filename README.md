@@ -1,5 +1,19 @@
 1. Notes
 
+- Security
+
+  - deps: see pom.xml
+  - custom config
+    > extends WebSecurityConfigurerAdapter
+  - annotations
+    > @Configuration
+    > @EnableWebSecurity
+  - Auth Types:
+    > Basic Auth: username + password -> base64, sent along with requests
+    > JWT token
+  - status
+    > 401: Unauthorized
+
 - Layers of Web Service
   - Entity (Model)
     - Map between DB table and an object
