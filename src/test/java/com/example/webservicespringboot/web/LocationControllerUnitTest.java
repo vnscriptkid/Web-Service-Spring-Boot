@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +32,8 @@ public class LocationControllerUnitTest {
   @Test
   public void callApiWithoutAuthInfo() throws Exception {
     mockMvc.perform(get("/locations")).andExpect(status().is(401));
+    verify(locationService, times(0)).retrieveLocations();
+
   }
 
   @Test
@@ -41,9 +44,7 @@ public class LocationControllerUnitTest {
     mockMvc.perform(get("/locations").header("Authorization", "Basic " + encodedBasicAuth + "="))
         .andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(content().json("[]"));
-  }
 
-  public PasswordEncoder encoder() {
-    return new BCryptPasswordEncoder();
+    verify(locationService, times(1)).retrieveLocations();
   }
 }
